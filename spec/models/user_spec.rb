@@ -5,5 +5,14 @@ describe 'User' do
       user = User.new
       expect(user.hello_world).to eq('hi')
     end
+
+    it 'has a secure password' do
+
+      password_digest = BCrypt::Password.create("password")
+      debugger
+      user = User.create!(password_digest:, email_address: 'foo@bar.com')
+
+    end
+
   end
 end
