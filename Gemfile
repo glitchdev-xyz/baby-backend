@@ -19,6 +19,11 @@ gem "bcrypt"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # See https://github.com/rspec/rspec-rails?tab=readme-ov-file#installation
+  # Adding to test & development avoids needing RAILS_ENV=test every time.
+  gem 'rspec'
+  gem 'rspec-rails'
 end
 
 group :development do
