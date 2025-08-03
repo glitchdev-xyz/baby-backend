@@ -1,9 +1,6 @@
 class SessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create ]
+  allow_unauthenticated_access only: %i[ create ]
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_url, alert: "Try again later." }
-
-  def new
-  end
 
   def create
     expected_params = params.expect(user: [:email_address, :password])
@@ -18,8 +15,9 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroy
-    terminate_session
-    redirect_to new_session_path
-  end
+  # TODO: Use or remove. Added by auth generator.
+  # def destroy
+  #   terminate_session
+  #   redirect_to new_session_path
+  # end
 end
