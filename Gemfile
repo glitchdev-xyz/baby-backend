@@ -24,6 +24,7 @@ group :development, :test do
   # Adding to test & development avoids needing RAILS_ENV=test every time.
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
