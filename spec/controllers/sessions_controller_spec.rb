@@ -49,18 +49,16 @@ describe SessionsController do
         )
       end
 
-      # TODO: Figure out how to test this & also,
-      # decide if it's worth testing here. Maybe it could be
-      # asserted indirectly via a integration spec.
-      xit 'sets current_session in global state' do
+      it 'returns the session token to the user' do
         user = create(:user)
         allow(User).to receive(:authenticate_by).and_return(user)
-
-        #Need to spy on the global Current obj within controller context
-        allow().to receive(:set)
         get :create
+        response_token = response.parsed_body['token']
+        expect(response_token).to eq(user.sessions.first.token)
+      end
 
-        expect().to  have_received(:session=)
+      it 'sets current_session in global state' do
+        pending 'Decide if it is worth testing this here.'
       end
     end
   end
