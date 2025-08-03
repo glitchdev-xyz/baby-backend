@@ -13,11 +13,18 @@ class User < ApplicationRecord
   end
 
   def increment_game_play_count(game_name)
-    return nil unless stats[:games][game_name][:play_count]
+    # TODO - non happy path cases.
+    # It works only if the name name exists, for now.
+    return nil unless stats && stats['games']
+
+    count = stats['games'][game_name]['play_count'].to_int
+    stats['games'][game_name]['play_count'] = count + 1
+    save!
   end
 
   def game_play_count(game_name)
-    # This line needs a lot of help, but don't want to get hung up on it right now.
+    # TODO: Figure out a nice way to deal with this field
+    # I know this line is very silly.
     return nil unless stats && stats['games'] && stats['games'][game_name] && stats['games'][game_name]['play_count']
 
     stats['games'][game_name]['play_count']

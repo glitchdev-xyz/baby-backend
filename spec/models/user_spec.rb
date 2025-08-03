@@ -19,13 +19,13 @@ describe User do
 
   describe '#game_play_count' do
     it 'returns nil if there are no stats' do
-      user = described_class.new(email_address: 'you@me.com', password: 'password')
+      user = described_class.create!(email_address: 'you@me.com', password: 'password')
 
       expect(user.game_play_count('chess')).to be nil
     end
 
     it 'returns nil if game name does not exist' do
-      user = described_class.new(email_address: 'you@me.com', password: 'password')
+      user = described_class.create!(email_address: 'you@me.com', password: 'password')
 
       user.stats = {
         games: {
@@ -50,5 +50,25 @@ describe User do
       user.save!
       expect(user.game_play_count('chess')).to eq(10)
     end
+  end
+
+  describe '#increment_game_play_count' do
+    it 'increments the count for the passed game' do
+      user = described_class.new(email_address: 'you@me.com', password: 'password')
+      user.stats = {
+        games: {
+          checkers: {
+            play_count: 2
+          }
+        }
+      }
+      user.save!
+      user.increment_game_play_count('checkers')
+      user.save!
+
+      expect(user.game_play_count('checkers')).to eq(3)
+    end
+
+
   end
 end
