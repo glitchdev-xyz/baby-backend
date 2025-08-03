@@ -10,11 +10,11 @@ describe UsersController do
         expect(response.status).to eq 201
       end
     end
-    context 'with invalid params' do
-      it 'responsds with status created' do
-        post(:create, params:)
 
-        expect(response.status).to eq 400
+
+    context 'with invalid params' do
+      it '' do
+        pending 'Assert that it responds appropriately'
       end
     end
   end

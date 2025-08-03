@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'api/user', to: 'users#create', as: 'create_user'
+#  post 'api/sessions', to: 'users#create', as: 'create_user'
 end

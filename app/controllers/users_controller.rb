@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   def create
     permitted = params.expect(user: [:email_address, :password])
 
-
     User.create!(permitted)
     render json: {}, status: :created
   end
@@ -12,5 +11,4 @@ class UsersController < ApplicationController
   private def user_params
     params.expect(person: [:name, :age])
   end
-
 end
