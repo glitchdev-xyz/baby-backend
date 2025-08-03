@@ -19,7 +19,3 @@ describe 'api/user' do
     expect(response).to have_http_status(:bad_request)
   end
 end
-
-describe 'POST api/sessions' do
-
-end
