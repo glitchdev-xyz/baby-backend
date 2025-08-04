@@ -32,4 +32,29 @@ describe UsersController do
       expect(response.status).to eq 204
     end
   end
+
+  describe 'GET stats' do
+    it 'returns the user\'s stats' do
+      user = create(:user_with_sessions, sessions_count: 1)
+
+      ['Zelda II', 'Kingdom of Kroz'].each do |game_name|
+        GameEvent.create(user_id: user.id, event_type: 'COMPLETED', game_name:)
+      end
+
+      request.headers['Authorization'] = "Token token=\"#{user.sessions.first.token}\""
+      get(:stats)
+
+      expected_response = {
+        user: {
+          id: user.id,
+          email: user.email_address,
+          stats: {
+            total_games_played: 2
+          }
+        }
+      }.to_json
+
+      expect(response.body).to eq expected_response
+    end
+  end
 end

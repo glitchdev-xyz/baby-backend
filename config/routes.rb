@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'api/user', to: 'users#create', as: 'create_user'
+  get 'api/user', to: 'users#stats', as: 'stats'
   post 'api/sessions', to: 'sessions#create', as: 'create_session'
   post 'api/user/game_events', to: 'users#create_event', as: 'create_event'
 end
