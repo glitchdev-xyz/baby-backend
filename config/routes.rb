@@ -12,4 +12,5 @@ Rails.application.routes.draw do
 
   post 'api/user', to: 'users#create', as: 'create_user'
   post 'api/sessions', to: 'sessions#create', as: 'create_session'
+  post 'api/user/game_events', to: 'users#create_event', as: 'create_event'
 end

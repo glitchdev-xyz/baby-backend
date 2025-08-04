@@ -11,11 +11,25 @@ describe UsersController do
       end
     end
 
-
     context 'with invalid params' do
-      it '' do
-        pending 'Assert that it responds appropriately'
-      end
+      # TODO
+    end
+  end
+
+  describe 'POST create_event' do
+    it 'creates a game event record' do
+      user = create(:user_with_sessions, sessions_count: 1)
+      request.headers['Authorization'] = "Token token=\"#{user.sessions.first.token}\""
+
+      params = {
+        game_event: {
+          game_name: "Brevity",
+          type: "COMPLETED",
+          occurred_at: "2025-01-01T00:00:00.000Z"
+        }
+      }
+      post(:create_event, params:)
+      expect(response.status).to eq 204
     end
   end
 end
