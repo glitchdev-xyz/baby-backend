@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   require 'net/http'
+  include Billing
+
   allow_unauthenticated_access only: %i[ create ]
 
   def create
@@ -43,22 +45,18 @@ class UsersController < ApplicationController
   end
 
   private def subscription_status(user)
-    uri = URI.parse(billing_url(user))
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request['Authorization'] = "Bearer #{billing_token}"
-    response = http.request(request)
+    if user.subscription_status && user.subscription_status.created_at.to_date < 1.day.ago
+      user.subscription_status
+    end
 
-    return nil unless response.is_a?(Net::HTTPSuccess)
+    subscription_status_request(user)
+  end
+  private def subscription_status_request(user)
+    response = billing_request(user)
+    return nil unless response
 
     JSON.parse(response.body)
   end
 
-  private def billing_url(user)
-    "https://interviews-accounts.elevateapp.com/api/v1/users/#{user.id}/billing"
-  end
-  # TODO: Prototype only
-  private def billing_token
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiaWxsaW5nIiwiaWF0IjoxNzQzMDg1NDk5LCJleHAiOm51bGwsImF1ZCI6Ind3dy5leGFtcGxlLmNvbSIsInN1YiI6ImJpbGxpbmdfY2xpZW50In0.aRwnR_QP6AlOv_JanMkbhwe9ACDcJc5184pXdR0ksXg'
-  end
+
 end
