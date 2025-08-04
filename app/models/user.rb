@@ -6,4 +6,5 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   validates :email_address, presence: true, uniqueness: true
+  validates :subscription_status, allow_nil: true, inclusion: { in: %w(active expired) }
 end
