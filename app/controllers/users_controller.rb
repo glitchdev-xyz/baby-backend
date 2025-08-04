@@ -44,6 +44,8 @@ class UsersController < ApplicationController
     render json: payload.to_json
   end
 
+  # TODO - this is not tested yet & might have bugs!
+  # also, line 49 is kinda gross.
   private def subscription_status(user)
     if user.subscription_status && user.subscription_status.created_at.to_date < 1.day.ago
       user.subscription_status
@@ -51,12 +53,11 @@ class UsersController < ApplicationController
 
     subscription_status_request(user)
   end
+
   private def subscription_status_request(user)
     response = billing_request(user)
     return nil unless response
 
     JSON.parse(response.body)
   end
-
-
 end
